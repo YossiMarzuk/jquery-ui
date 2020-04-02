@@ -20,7 +20,7 @@ steps:
     script: |
       sudo mv $(System.DefaultWorkingDirectory)/twistcli /usr/bin/twistcli
       sudo chmod +x /usr/bin/twistcli
-      docker pull - task: prisma-cloud-compute-scan@1
+      docker pull ubuntu:16.04
 - task: prisma-cloud-compute-scan@1
   inputs:
     scanType: 'images'
