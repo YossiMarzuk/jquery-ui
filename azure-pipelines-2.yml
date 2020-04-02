@@ -20,16 +20,16 @@ steps:
     script: |
       sudo mv $(System.DefaultWorkingDirectory)/twistcli /usr/bin/twistcli
       sudo chmod +x /usr/bin/twistcli
-      docker pull ubuntu:16.04
-- task: prisma-cloud-compute-scan@1
+      docker pull - task: prisma-cloud-compute-scan@1
   inputs:
     scanType: 'images'
-    twistlockService: 'Yossim-AzureDevOps-Connection'
+    twistlockService: 'euler'
     vulnerabilityThreshold: 'high'
     onlyFixed: false
     gracePeriod: '0'
     complianceThreshold: 'high'
     artifact: 'ubuntu:16.04'
+
 - task: Docker@2
   inputs:
     command: 'buildAndPush'
