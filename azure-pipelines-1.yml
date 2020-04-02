@@ -2,18 +2,35 @@
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
-
 trigger:
 - master
-
 pool:
-  vmImage: 'ubuntu-latest'
-
+  vmImage: 'Ubuntu-16.04'
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: UniversalPackages@0
+  inputs:
+    command: 'download'
+    downloadDirectory: '$(System.DefaultWorkingDirectory)'
+    feedsToUse: 'internal'
+    vstsFeed: '1318ec39-107b-4140-a370-c5ec9631aee0'
+    vstsFeedPackage: 'fc5c7dc7-c756-4468-a1e2-4def3ce82084'
+    vstsPackageVersion: '19.11.512'
+- task: CmdLine@2
+  inputs:
+    script: |
+      sudo mv $(System.DefaultWorkingDirectory)/twistcli /usr/bin/twistcli
+      sudo chmod +x /usr/bin/twistcli
+      docker pull ubuntu:16.04
+- task: prisma-cloud-compute-scan@1
+  inputs:
+    scanType: 'images'
+    twistlockService: 'Yossim-AzureDevOps-Connection'
+    vulnerabilityThreshold: 'high'
+    onlyFixed: false
+    gracePeriod: '0'
+    complianceThreshold: 'high'
+    artifact: 'ubuntu:16.04'
+- task: Docker@2
+  inputs:
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
