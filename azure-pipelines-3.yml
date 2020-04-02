@@ -14,7 +14,7 @@ steps:
     feedsToUse: 'internal'
     vstsFeed: '1318ec39-107b-4140-a370-c5ec9631aee0'
     vstsFeedPackage: 'fc5c7dc7-c756-4468-a1e2-4def3ce82084'
-    vstsPackageVersion: '19.11.513'
+    vstsPackageVersion: '19.11.512'
 - task: CmdLine@2
   inputs:
     script: |
