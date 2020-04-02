@@ -21,6 +21,7 @@ steps:
       sudo mv $(System.DefaultWorkingDirectory)/twistcli /usr/bin/twistcli
       sudo chmod +x /usr/bin/twistcli
       docker pull - task: prisma-cloud-compute-scan@1
+- task: prisma-cloud-compute-scan@1
   inputs:
     scanType: 'images'
     twistlockService: 'euler'
@@ -29,7 +30,6 @@ steps:
     gracePeriod: '0'
     complianceThreshold: 'high'
     artifact: 'ubuntu:16.04'
-
 - task: Docker@2
   inputs:
     command: 'buildAndPush'
